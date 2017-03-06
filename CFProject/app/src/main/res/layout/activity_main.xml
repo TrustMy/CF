@@ -1,22 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.sy.cfproject.MainActivity">
 
 
-    <Button
-        android:id="@+id/one"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="车辆位置"/>
+    <FrameLayout
+        android:id="@+id/home_framelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></FrameLayout>
 
-    <Button
-        android:id="@+id/two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="车辆轨迹"/>
+    <RadioGroup
+        android:id="@+id/home_radio_group"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:background="#0f1317">
 
-</LinearLayout>
+
+        <RadioButton
+            android:id="@+id/radio_server"
+            style="@style/RadioStyle"
+            android:gravity="top|center"
+            android:text="服务"
+            android:drawableTop="@drawable/bg_img_server"
+            />
+
+
+        <RadioButton
+
+            android:id="@+id/radio_control"
+            style="@style/RadioStyle"
+            android:text="控制"
+            android:drawableTop="@drawable/bg_img_controll"
+            />
+
+
+        <RadioButton
+            android:id="@+id/radio_home"
+            style="@style/RadioStyle"
+            android:drawableTop="@drawable/bg_img_home"
+            android:text="首页"
+
+            />
+
+
+        <RadioButton
+            android:id="@+id/radio_driving"
+            style="@style/RadioStyle"
+            android:drawableTop="@drawable/bg_img_driving"
+
+            android:text="驾驶"
+            />
+
+
+        <RadioButton
+            android:id="@+id/radio_my"
+            style="@style/RadioStyle"
+            android:drawableTop="@drawable/bg_img_my"
+            android:text="我"
+            />
+
+    </RadioGroup>
+
+
+</RelativeLayout>

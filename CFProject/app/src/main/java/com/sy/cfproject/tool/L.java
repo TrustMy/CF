@@ -2,7 +2,7 @@ package com.sy.cfproject.tool;
 
 import android.util.Log;
 
-import com.sy.cfproject.gpstools.gpstool.TrajectoryCorrection;
+
 
 /**
  * Created by Trust on 2017/3/2.
@@ -15,6 +15,14 @@ public class L {
         if(isShow)
         {
             Log.i(TAG, msg);
+        }
+    }
+
+    public static  void e(String msg)
+    {
+        if(isShow)
+        {
+            Log.e(TAG, msg );
         }
     }
 }

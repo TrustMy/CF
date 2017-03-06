@@ -40,7 +40,7 @@ LocationSource.OnLocationChangedListener  mListener;
 
               myLatLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
 
-//                Mark.showMark(context,aMap,myLatLng,aMapLocation.getCity() + aMapLocation.getDistrict() + aMapLocation.getStreet() + aMapLocation.getStreetNum());
+//                AMapTool.showMark(context,aMap,myLatLng,aMapLocation.getCity() + aMapLocation.getDistrict() + aMapLocation.getStreet() + aMapLocation.getStreetNum());
                 mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
 
             } else {
@@ -73,13 +73,13 @@ LocationSource.OnLocationChangedListener  mListener;
         }
 
 
-        MyLocationStyle myLocationStyle = new MyLocationStyle();
-        myLocationStyle.myLocationIcon(BitmapDescriptorFactory
-                .fromResource(R.mipmap.ic_launcher));// 设置小蓝点的图标
-        myLocationStyle.strokeColor(Color.parseColor("#5fff0000"));// 设置圆形的边框颜色
-        myLocationStyle.radiusFillColor(Color.parseColor("#5fff00ff"));// 设置圆形的填充颜色
-        myLocationStyle.strokeWidth(1f);// 设置圆形的边框粗细
-        aMap.setMyLocationStyle(myLocationStyle);
+//        MyLocationStyle myLocationStyle = new MyLocationStyle();
+//        myLocationStyle.myLocationIcon(BitmapDescriptorFactory
+//                .fromResource(R.mipmap.ic_launcher));// 设置小蓝点的图标
+//        myLocationStyle.strokeColor(Color.parseColor("#5fff0000"));// 设置圆形的边框颜色
+//        myLocationStyle.radiusFillColor(Color.parseColor("#5fff00ff"));// 设置圆形的填充颜色
+//        myLocationStyle.strokeWidth(1f);// 设置圆形的边框粗细
+//        aMap.setMyLocationStyle(myLocationStyle);
 
         /*
 

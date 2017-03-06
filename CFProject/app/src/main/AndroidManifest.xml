@@ -27,22 +27,25 @@
 
         <activity android:name=".MainActivity">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        <activity android:name=".acyivity.CarLocationActivity">
-
-        </activity>
+        <activity android:name=".acyivity.CarLocationActivity" />
         >
         <activity android:name=".BaseActivity" />
 
         <!-- 定位server -->
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".acyivity.CarTrajectoryActivity"></activity>
+        <activity android:name=".acyivity.CarTrajectoryActivity" />
+        <activity android:name=".acyivity.CarHistoryActivity" />
+        <activity android:name=".acyivity.LogingActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>>
+        <activity android:name=".acyivity.RegisterActivity" />
+        <activity android:name=".acyivity.ChangePwdActivity"></activity>
     </application>
 
 </manifest>
