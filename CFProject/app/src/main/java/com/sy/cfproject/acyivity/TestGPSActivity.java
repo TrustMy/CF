@@ -1,7 +1,7 @@
 package com.sy.cfproject.acyivity;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -12,25 +12,23 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
-import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.MyLocationStyle;
 import com.sy.cfproject.BaseActivity;
 import com.sy.cfproject.R;
-import com.sy.cfproject.tool.gpstool.AMapTool;
 
-public class CarLocationActivity extends BaseActivity {
-    private Context context = CarLocationActivity.this;
+public class TestGPSActivity extends BaseActivity {
+
+    private Context context = TestGPSActivity.this;
     private MapView mMapView;
     private AMap aMap;
-   private LatLng myLatLng;
+    private LatLng myLatLng;
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
 
 
     private Button myLocationBtn;
 
-    private LocationSource.OnLocationChangedListener  mListener;
+    LocationSource.OnLocationChangedListener  mListener;
 
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
@@ -38,11 +36,10 @@ public class CarLocationActivity extends BaseActivity {
         public void onLocationChanged(AMapLocation aMapLocation) {
             if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
 
-              myLatLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
+                myLatLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
 
-                AMapTool.showMark(context,aMap,myLatLng,R.mipmap.ic_launcher,"坐标",
-                        aMapLocation.getAddress(),true);
-//                mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
+//                AMapTool.showMark(context,aMap,myLatLng,aMapLocation.getCity() + aMapLocation.getDistrict() + aMapLocation.getStreet() + aMapLocation.getStreetNum());
+                mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
 
             } else {
 
@@ -82,13 +79,13 @@ public class CarLocationActivity extends BaseActivity {
 //        myLocationStyle.strokeWidth(1f);// 设置圆形的边框粗细
 //        aMap.setMyLocationStyle(myLocationStyle);
 
-
         /*
+
         // 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap.setMyLocationEnabled(true);
         // 设置定位的类型为定位模式，有定位、跟随或地图根据面向方向旋转几种
         aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
-        */
+
 
         //初始化定位
         mLocationClient = new AMapLocationClient(getApplicationContext());
@@ -99,16 +96,13 @@ public class CarLocationActivity extends BaseActivity {
 
         //初始化AMapLocationClientOption对象
         mLocationOption = new AMapLocationClientOption();
-        mLocationOption.setLocationMode(
-                AMapLocationClientOption.AMapLocationMode.Hight_Accuracy); //高精度定位
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy); //高精度定位
         //获取一次定位结果：
         //该方法默认为false。
         mLocationOption.setOnceLocation(true);
 
         //获取最近3s内精度最高的一次定位结果：
-        //设置setOnceLocationLatest(boolean b)接口为true，
-        // 启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，
-        // setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        //设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
         mLocationOption.setOnceLocationLatest(true);
 
         //设置是否返回地址信息（默认返回地址信息）
@@ -121,13 +115,47 @@ public class CarLocationActivity extends BaseActivity {
         mLocationClient.setLocationOption(mLocationOption);
         //启动定位
         mLocationClient.startLocation();
+        */
 
 
-
+        // 设置定位监听
+        aMap.setLocationSource(l);
+// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+        aMap.setMyLocationEnabled(true);
+// 设置定位的类型为定位模式，有定位、跟随或地图根据面向方向旋转几种
+        aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
 
 
     }
 
+    public LocationSource l = new LocationSource() {
+        @Override
+        public void activate(OnLocationChangedListener onLocationChangedListener) {
+            mListener = onLocationChangedListener;
+            if (mLocationClient == null) {
+                //初始化定位
+                mLocationClient = new AMapLocationClient(context);
+                //初始化定位参数
+                mLocationOption = new AMapLocationClientOption();
+                //设置定位回调监听
+                mLocationClient.setLocationListener(mLocationListener);
+                //设置为高精度定位模式
+                mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+                //设置定位参数
+                mLocationClient.setLocationOption(mLocationOption);
+                // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+                // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+                // 在定位结束后，在合适的生命周期调用onDestroy()方法
+                // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+                mLocationClient.startLocation();//启动定位
+            }
+        }
+
+        @Override
+        public void deactivate() {
+
+        }
+    };
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -149,8 +177,7 @@ public class CarLocationActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，
-        // 保存地图当前的状态
+        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
         mMapView.onSaveInstanceState(outState);
     }
 

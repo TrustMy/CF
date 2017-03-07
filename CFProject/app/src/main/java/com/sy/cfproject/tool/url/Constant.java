@@ -9,4 +9,6 @@ public class Constant {
     public static final int LOGING = 1;
 
     public static final int CAR_LOCATION = 2;
+    //34
+    public static final int CAR_TRAJECTORY_LINE = 5;
 }

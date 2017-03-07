@@ -1,8 +1,11 @@
 package com.sy.cfproject.acyivity;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
@@ -11,8 +14,15 @@ import com.google.gson.Gson;
 import com.sy.cfproject.BaseActivity;
 import com.sy.cfproject.R;
 import com.sy.cfproject.bean.CarTrajectoryBean;
+import com.sy.cfproject.tool.User;
 import com.sy.cfproject.tool.gpstool.CoordinateTransformation;
 import com.sy.cfproject.tool.gpstool.GPSHistoryLine;
+import com.sy.cfproject.tool.requestdata.RequestCarTrajectoryBean;
+import com.sy.cfproject.tool.requesttool.PostTool;
+import com.sy.cfproject.tool.responsebean.ResponseCarTrajectoryBean;
+import com.sy.cfproject.tool.url.Constant;
+import com.sy.cfproject.tool.url.HttpStatus;
+import com.sy.cfproject.tool.url.ServerUrl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +34,29 @@ public class CarTrajectoryActivity extends BaseActivity {
     private Context context = CarTrajectoryActivity.this;
 
     private CoordinateTransformation coordinateTransformation;
+    private PostTool postTool;
+
+    private long startTime = 1484546190000L,endTime = 1484546456000L;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what)
+            {
+                case Constant.CAR_TRAJECTORY_LINE:
+                    if(msg.arg1 == HttpStatus.HTTP_SUCCESS)
+                    {
+                        ResponseCarTrajectoryBean carTrajectoryBean =
+                                (ResponseCarTrajectoryBean) msg.obj;
+                        initDrawLine(carTrajectoryBean);
+                    }else
+                    {
+                        Toast.makeText(context, (String) msg.obj, Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+            }
+        }
+    };
+
 
     private String testDate = "{\"content\":{\"totalElements\":109,\"gps\"" +
             ":[{\"gpsTime\":1484547022000,\"engine\":0,\"station\":31241,\"" +
@@ -431,12 +464,23 @@ public class CarTrajectoryActivity extends BaseActivity {
         }
 
         initView();
+        initHttps();
     }
 
     private void initView() {
         coordinateTransformation = new CoordinateTransformation(context);
-        Gson gson = new Gson();
-        CarTrajectoryBean  carTrajectoryBean = gson.fromJson(testDate, CarTrajectoryBean.class);
+        postTool = new PostTool(context,handler);
+
+    }
+
+    private void initHttps() {
+        postTool.toDrawHirstoryLine(ServerUrl.server_url+ServerUrl.car_history_location_line_url,
+                new RequestCarTrajectoryBean(User.termId,startTime,endTime),
+                Constant.CAR_TRAJECTORY_LINE);
+    }
+
+    private void initDrawLine(ResponseCarTrajectoryBean carTrajectoryBean) {
+
 
         if(carTrajectoryBean.getContent().getGps().size() != 0)
         {
@@ -487,7 +531,8 @@ public class CarTrajectoryActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
+        //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，
+        // 保存地图当前的状态
         mapView.onSaveInstanceState(outState);
     }
 

@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.sy.cfproject.BaseFragment;
 import com.sy.cfproject.R;
 import com.sy.cfproject.acyivity.CarTrajectoryActivity;
+import com.sy.cfproject.acyivity.ListOfHistoricalTracksActivity;
 
 /**
  * Created by Trust on 2017/3/6.
@@ -20,6 +21,7 @@ public class DriveFragment extends BaseFragment {
     private View v;
     private Button hirstoryBtn,alarmBtn;
     private Context context;
+
 
     @Override
     public void onAttach(Context context) {
@@ -49,7 +51,7 @@ public class DriveFragment extends BaseFragment {
         switch (view.getId())
         {
             case R.id.drive_hirstory:
-                intent.setClass(context, CarTrajectoryActivity.class);
+                intent.setClass(context, ListOfHistoricalTracksActivity.class);
                 break;
             case R.id.drive_alarm:
                 break;

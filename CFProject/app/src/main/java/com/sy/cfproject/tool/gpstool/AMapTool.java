@@ -28,7 +28,7 @@ public class AMapTool {
                     0  ////偏航角 0~360° (正北方为0)
             )));
 
-            if(msg != null && msg.equals(""))
+            if(msg != null && !msg.equals(""))
             {
                 aMap.addMarker(new MarkerOptions().
                         position(latLng).
